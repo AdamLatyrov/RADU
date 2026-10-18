@@ -1,0 +1,43 @@
+name: Windows app release
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  package:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.0.x
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Download the Russian speech model
+        shell: pwsh
+        run: |
+          $archive = Join-Path $env:RUNNER_TEMP "vosk-model.zip"
+          Invoke-WebRequest "https://alphacephei.com/vosk/models/vosk-model-small-ru-0.22.zip" -OutFile $archive
+          Expand-Archive $archive -DestinationPath model
+      - name: Build the graphical app package
+        shell: pwsh
+        run: ./packaging/build-release.ps1
+      - uses: actions/upload-artifact@v4
+        with:
+          name: RADU-Windows
+          path: artifacts/RADU-Windows.zip
+      - name: Publish GitHub release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          name: RADU ${{ github.ref_name }}
+          prerelease: true
+          generate_release_notes: true
+          files: artifacts/RADU-Windows.zip

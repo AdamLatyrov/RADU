@@ -26,3 +26,8 @@
 До этой проверки у RADU V3 не было собственного Git-репозитория. 13 октября создан первый локальный снимок `Зафиксировать начальный снимок RADU V3`. Это фиксирует текущее состояние для будущих откатов, но не восстанавливает историю прежних итераций.
 
 В соседнем ручном проекте `AI-Assistant` есть отдельная история из 12 коммитов. Она не является историей RADU V3 и не содержит изменений этого проекта. Модель и папка данных RADU исключены из Git, их файлы остаются на компьютере.
+
+## 2026-10-18
+- Added a graphical Windows release package that includes the WPF app, bundled speech engine, and Russian Vosk model.
+- Moved mutable speech data into the Windows user profile for packaged runs.
+- Added agent guidance and removed root-level manual setup and command-line launch scripts from the public source tree.

@@ -100,6 +100,8 @@ def _runtime_fingerprint() -> str:
         )
     )
     for path in sources:
+        if not path.is_file():
+            continue
         try:
             source_name = path.relative_to(project_root).as_posix()
         except ValueError:

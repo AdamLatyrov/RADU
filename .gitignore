@@ -7,6 +7,7 @@ data/
 /.ruff_cache/
 /bin/
 /releases/
+/artifacts/
 /commands.json
 *.log
 *.wav

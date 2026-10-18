@@ -239,6 +239,7 @@ class SessionArchive:
         self.status = "running"
         self.ended_at: datetime | None = None
         self._lock = threading.Lock()
+        self.path.parent.mkdir(parents=True, exist_ok=True)
         self.journal_path.touch()
         self._write()
 

@@ -32,11 +32,13 @@ public sealed class VoiceEngine : IDisposable
         _lastError = "";
         _listening = true;
         var engineDirectory = FindEngineDirectory();
+        var packagedEngine = Path.Combine(AppContext.BaseDirectory, "RADU.Engine.exe");
+        var isPackaged = File.Exists(packagedEngine);
         var virtualEnvironmentPython = Path.Combine(engineDirectory, ".venv", "Scripts", "python.exe");
-        var useVirtualEnvironment = File.Exists(virtualEnvironmentPython);
+        var useVirtualEnvironment = !isPackaged && File.Exists(virtualEnvironmentPython);
         var startInfo = new ProcessStartInfo
         {
-            FileName = useVirtualEnvironment ? virtualEnvironmentPython : "py",
+            FileName = isPackaged ? packagedEngine : useVirtualEnvironment ? virtualEnvironmentPython : "py",
             WorkingDirectory = engineDirectory,
             UseShellExecute = false,
             CreateNoWindow = true,
@@ -46,16 +48,23 @@ public sealed class VoiceEngine : IDisposable
             StandardOutputEncoding = System.Text.Encoding.UTF8,
             StandardErrorEncoding = System.Text.Encoding.UTF8
         };
-        if (!useVirtualEnvironment)
+        if (!isPackaged && !useVirtualEnvironment)
             startInfo.ArgumentList.Add("-3");
-        startInfo.ArgumentList.Add("-u");
-        startInfo.ArgumentList.Add("-m");
-        startInfo.ArgumentList.Add("assistant.main");
+        if (!isPackaged)
+        {
+            startInfo.ArgumentList.Add("-u");
+            startInfo.ArgumentList.Add("-m");
+            startInfo.ArgumentList.Add("assistant.main");
+        }
         startInfo.ArgumentList.Add("--engine-service");
         startInfo.Environment["PYTHONUTF8"] = "1";
         startInfo.Environment["PYTHONUNBUFFERED"] = "1";
         startInfo.Environment["RADU_ENGINE_SERVICE"] = "1";
         startInfo.Environment["RADU_COMMANDS_FILE"] = CommandCatalog.GetConfigPath();
+        startInfo.Environment["RADU_DATA_ROOT"] = Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "RADU-V3-WPF", "data");
+        if (isPackaged)
+            startInfo.Environment["RADU_VOSK_MODEL"] = Path.Combine(AppContext.BaseDirectory, "model", "vosk-model-small-ru-0.22");
 
         _process = new Process { StartInfo = startInfo, EnableRaisingEvents = true };
         _process.OutputDataReceived += (_, args) =>
@@ -96,6 +105,8 @@ public sealed class VoiceEngine : IDisposable
 
     internal static string FindEngineDirectory()
     {
+        if (File.Exists(Path.Combine(AppContext.BaseDirectory, "RADU.Engine.exe")))
+            return AppContext.BaseDirectory;
         var configured = Environment.GetEnvironmentVariable("RADU_PYTHON_ENGINE_DIR");
         if (!string.IsNullOrWhiteSpace(configured)
             && File.Exists(Path.Combine(configured, "assistant", "main.py")))

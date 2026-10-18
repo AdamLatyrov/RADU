@@ -117,7 +117,8 @@ public static class SuccessfulExecutionCatalog
     }
 
     public static string GetHistoryFilePath() => Path.Combine(
-        VoiceEngine.FindEngineDirectory(), "data", "command_history", "executed_commands.jsonl");
+        Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+        "RADU-V3-WPF", "data", "command_history", "executed_commands.jsonl");
 
     private static string ReadString(JsonElement element, string propertyName) =>
         element.TryGetProperty(propertyName, out var property)

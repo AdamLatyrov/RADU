@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import math
+import os
 import random
 import struct
 import wave
@@ -9,13 +10,8 @@ from pathlib import Path
 
 def create_command_tone() -> Path:
     """Create a soft triple toggle-click sound in RADU's local cache."""
-    path = (
-        Path(__file__).resolve().parents[1]
-        / "data"
-        / "cache"
-        / "feedback"
-        / "command-toggle-click.wav"
-    )
+    data_root = Path(os.environ.get("RADU_DATA_ROOT", Path(__file__).resolve().parents[1] / "data"))
+    path = data_root / "cache" / "feedback" / "command-toggle-click.wav"
     if path.is_file():
         return path
     path.parent.mkdir(parents=True, exist_ok=True)

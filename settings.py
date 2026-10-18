@@ -21,7 +21,12 @@ ASR_QUEUE_MAXSIZE = 20
 WORD_CONFIDENCE_MIN = 1.0
 MIN_REFERENCES = 2
 REFERENCE_DISTANCE_MULTIPLIER = 1.5
-VOSK_MODEL = ROOT / "model" / "vosk-model-small-ru-0.22"
+VOSK_MODEL = Path(
+    os.environ.get(
+        "RADU_VOSK_MODEL",
+        str(ROOT / "model" / "vosk-model-small-ru-0.22"),
+    )
+)
 LOCAL_COMMANDS_FILE = (
     Path(os.environ.get("LOCALAPPDATA", Path.home() / "AppData" / "Local"))
     / "RADU-V3-WPF"
@@ -31,7 +36,7 @@ DEFAULT_COMMANDS_FILE = (
     LOCAL_COMMANDS_FILE if LOCAL_COMMANDS_FILE.is_file() else ROOT / "commands.json"
 )
 COMMANDS_FILE = Path(os.environ.get("RADU_COMMANDS_FILE", DEFAULT_COMMANDS_FILE))
-DATA_ROOT = ROOT / "data"
+DATA_ROOT = Path(os.environ.get("RADU_DATA_ROOT", str(ROOT / "data")))
 OBSERVATIONS_ROOT = DATA_ROOT / "observations"
 SESSIONS_ROOT = DATA_ROOT / "sessions"
 COMMAND_HISTORY_FILE = DATA_ROOT / "command_history" / "executed_commands.jsonl"

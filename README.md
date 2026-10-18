@@ -1,45 +1,35 @@
 # RADU
 
-Локальный голосовой помощник для Windows с настраиваемыми командами. RADU слушает микрофон, распознаёт короткие русские фразы и запускает привязанные к ним приложения или ссылки.
+RADU is a Windows desktop voice-command app. Users configure phrases and actions in the graphical app. The Windows download contains the interface, speech engine, and Russian speech model. Python and command-line tools are not needed to run it.
 
-## Состав проекта
+## Download and start
 
-- `assistant/` — Python-движок, захват аудио, VAD, распознавание через Vosk, проверки и запуск действий.
-- `prototypes/Radu.Wpf/` — интерфейс WPF для главного экрана, команд и истории успешных запусков.
-- `tools/` — менеджер команд и исследовательские утилиты.
-- `tests/` — имеющиеся проверки отдельных компонентов.
-- `docs/IDEAS_AND_SOURCES.md` — идеи и три статьи для дальнейшего исследования.
+1. Open the [latest RADU release](https://github.com/AdamLatyrov/RADU/releases/latest).
+2. Download `RADU-Windows.zip` and extract the whole archive to a folder you can write to.
+3. Start `RADU.exe` from that folder.
+4. Add or edit commands in the Commands page.
 
-WPF-приложение управляет тем же Python-движком. Каталог команд пользователя хранится отдельно в профиле Windows. Пример конфигурации в репозитории не содержит путей с конкретного компьютера.
+Windows may show its first-run application warning because this preview is not signed. RADU stores commands and recordings in the current Windows user profile. Keep the extracted app folder together because the speech engine and model are beside the interface executable.
 
-## Требования
+## For coding agents
 
-- Windows
-- Python 3 с доступным лаунчером `py`
-- .NET 9 SDK для сборки WPF-интерфейса
-- микрофон
+Read [`AGENTS.md`](AGENTS.md) before changing code. It describes the architecture, the user-facing launch path, data boundaries, build workflow, and restrictions on the recognition pipeline. Start with the WPF shell in `prototypes/Radu.Wpf/` and the Python engine in `assistant/`. Do not treat archived release folders, local recordings, or ignored model data as canonical source.
 
-## Быстрый старт
+## Project map
 
-1. Скопируйте `commands.example.json` в `commands.json` и при необходимости измените фразы и действия.
-2. Запустите `setup.cmd`. Скрипт создаст виртуальное окружение, установит Python-зависимости и загрузит небольшую русскую модель Vosk.
-3. Запустите `run.cmd` для консольного интерфейса с диагностикой.
-4. Чтобы собрать WPF-интерфейс, откройте `prototypes/Radu.Wpf/Radu.Wpf.csproj` в Visual Studio с поддержкой .NET 9 или соберите проект командой `dotnet build`.
+- `prototypes/Radu.Wpf/` contains the user interface and its process integration with the speech engine.
+- `assistant/` and `settings.py` contain speech capture, recognition, command decisions, actions, and local history.
+- `tests/` contains existing Python checks.
+- `docs/IDEAS_AND_SOURCES.md` preserves research directions and references.
+- `packaging/` contains the Windows release build definition. Users do not run it.
+- `.github/workflows/windows-release.yml` builds a downloadable Windows archive and publishes it for version tags.
 
-Первый запуск установки требует доступа к интернету для загрузки модели. Модель не хранится в GitHub.
+The Vosk model, recordings, logs, and personal command routes are not committed to the source repository. The release workflow downloads the public Russian Vosk model during packaging.
 
-## Настройка команд
+## Build a release
 
-Файл `commands.json` содержит массив команд с идентификатором, фразами и действием. Поддерживаются типы действия `open_app` и `open_url`. Структура примера находится в `commands.example.json`. WPF хранит рабочую копию каталога в `%LOCALAPPDATA%\RADU-V3-WPF\commands.json` и не перезаписывает её при повторном запуске.
+The release workflow runs on Windows, builds a self-contained .NET desktop app and packaged Python engine, places the model beside them, then creates `RADU-Windows.zip`. Push a `v*` tag to publish a prerelease. A local build requires the .NET 9 SDK, Python 3.12, the pinned build dependencies in `requirements-release.txt`, and the Russian Vosk model under `model/`.
 
-## Данные и конфиденциальность
+## Current status
 
-Рабочие записи, журналы и история создаются в `data/`. Текущая конфигурация RADU сохраняет аудионаблюдения локально и автоматически их не удаляет. Перед передачей папки проекта проверьте `data/` и локальный `commands.json`. Эти пути исключены из Git.
-
-## Статус
-
-RADU развивается как локальный проект. История запусков, редактор команд и визуализатор микрофона доступны в WPF-прототипе. Точность распознавания зависит от фразы, микрофона и модели. Идеи BARY, эмбеддинги, Sherpa-ONNX и управление несколькими моделями описаны как будущие исследования и пока не являются функциями проекта.
-
-## Лицензия
-
-Лицензия проекта пока не выбрана. Условия сторонних зависимостей и ресурсов нужно учитывать отдельно.
+This is a preview. Recognition accuracy depends on the configured phrase, microphone, and Vosk model. Research-only acoustic checks and alternative models are not in the command execution path.
