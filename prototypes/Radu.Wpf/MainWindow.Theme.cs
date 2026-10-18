@@ -47,15 +47,9 @@ public partial class MainWindow
         Color color;
         if (value == "custom")
         {
-            using var dialog = new System.Windows.Forms.ColorDialog
-            {
-                AllowFullOpen = true,
-                FullOpen = true,
-                Color = System.Drawing.Color.FromArgb(
-                    _listeningColor.R, _listeningColor.G, _listeningColor.B)
-            };
-            if (dialog.ShowDialog() != System.Windows.Forms.DialogResult.OK) return;
-            color = Color.FromRgb(dialog.Color.R, dialog.Color.G, dialog.Color.B);
+            var dialog = new AccentColorPickerWindow(_listeningColor) { Owner = this };
+            if (dialog.ShowDialog() != true || dialog.SelectedColor is not { } selectedColor) return;
+            color = selectedColor;
             value = $"#{color.R:X2}{color.G:X2}{color.B:X2}";
         }
         else if (!TryParseAccentColor(value, out color))
@@ -107,7 +101,10 @@ public partial class MainWindow
         {
             var isCustomButton = button.Tag is string value && value == "custom";
             if (isCustomButton)
-                button.Background = new SolidColorBrush(_listeningColor);
+            {
+                button.Background = (System.Windows.Media.Brush)FindResource("PanelBrush");
+                AccentCustomIcon.Stroke = new SolidColorBrush(GetReadableAccentColor(_listeningColor));
+            }
             var selected = isCustomButton
                 ? !selectedPreset
                 : button.Tag is string preset
@@ -120,6 +117,14 @@ public partial class MainWindow
                 : new SolidColorBrush(Color.FromRgb(86, 97, 107));
             button.BorderThickness = new Thickness(selected ? 2 : 1);
         }
+    }
+
+    private static Color GetReadableAccentColor(Color color)
+    {
+        var luminance = (0.2126 * color.R + 0.7152 * color.G + 0.0722 * color.B) / 255;
+        return luminance >= 0.62
+            ? Color.FromRgb(25, 28, 31)
+            : color;
     }
 
 

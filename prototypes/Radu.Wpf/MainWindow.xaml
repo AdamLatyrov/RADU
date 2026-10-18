@@ -355,6 +355,7 @@
                 ToolTip="Выбрать свой цвет"
                 AutomationProperties.Name="Выбрать произвольный цвет акцента">
                 <Path
+                  x:Name="AccentCustomIcon"
                   Width="16"
                   Height="16"
                   Stretch="Uniform"
@@ -895,7 +896,7 @@
                     <Grid Margin="12,8">
                       <Grid.ColumnDefinitions><ColumnDefinition /><ColumnDefinition Width="Auto" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
                       <StackPanel VerticalAlignment="Center" Margin="0,0,12,0">
-                        <TextBlock Text="{Binding Transcript}" Foreground="{StaticResource TextBrush}" FontSize="15" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
+                        <TextBlock Text="{Binding Transcript}" Foreground="{StaticResource TextBrush}" FontSize="15" FontWeight="SemiBold" TextWrapping="Wrap" />
                         <TextBlock Text="{Binding LocalTimeLabel}" Margin="0,5,0,0" FontSize="12" Foreground="{StaticResource MutedBrush}" />
                         <TextBlock x:Name="MarkedLabel" Text="Неверно распознано" Margin="0,5,0,0" FontSize="11" Foreground="{DynamicResource AccentBrush}" Visibility="Collapsed" />
                       </StackPanel>
