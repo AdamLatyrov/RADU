@@ -1,0 +1,1042 @@
+<Window
+  x:Class="Radu.Wpf.MainWindow"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework"
+  Title="RADU"
+  Height="760"
+  Width="470"
+  MinHeight="600"
+  MinWidth="390"
+  WindowStyle="None"
+  ResizeMode="CanResize"
+  WindowStartupLocation="CenterScreen"
+  Background="Transparent"
+  Foreground="{StaticResource TextBrush}"
+  FontFamily="Segoe UI Variable Text"
+  Closing="Window_Closing"
+  PreviewKeyDown="MainWindow_PreviewKeyDown">
+  <shell:WindowChrome.WindowChrome>
+    <shell:WindowChrome
+      CaptionHeight="48"
+      ResizeBorderThickness="6"
+      CornerRadius="{StaticResource WindowCornerRadius}"
+      GlassFrameThickness="0"
+      UseAeroCaptionButtons="False" />
+  </shell:WindowChrome.WindowChrome>
+  <Border
+    Background="{StaticResource WindowBackgroundBrush}"
+    BorderBrush="{StaticResource BorderBrushSoft}"
+    BorderThickness="1"
+    CornerRadius="{StaticResource WindowCornerRadius}"
+    ClipToBounds="True">
+    <Grid>
+      <Grid.RowDefinitions>
+        <RowDefinition
+          Height="48" />
+        <RowDefinition
+          Height="*" />
+        <RowDefinition
+          Height="76" />
+      </Grid.RowDefinitions>
+      <Grid
+        Grid.Row="0"
+        Height="48"
+        Background="{StaticResource PanelBrush}">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition />
+          <ColumnDefinition
+            Width="44" />
+          <ColumnDefinition
+            Width="44" />
+          <ColumnDefinition
+            Width="48" />
+        </Grid.ColumnDefinitions>
+        <StackPanel
+          Orientation="Horizontal"
+          VerticalAlignment="Center"
+          Margin="18,0,0,0"
+          IsHitTestVisible="False">
+          <StackPanel
+            Orientation="Horizontal"
+            VerticalAlignment="Center"
+            Height="22">
+            <Border
+              Width="3"
+              Height="9"
+              CornerRadius="2"
+              Background="{DynamicResource AccentBrush}"
+              VerticalAlignment="Center"
+              Margin="1,0" />
+            <Border
+              Width="3"
+              Height="16"
+              CornerRadius="2"
+              Background="{DynamicResource AccentBrush}"
+              VerticalAlignment="Center"
+              Margin="1,0" />
+            <Border
+              Width="3"
+              Height="22"
+              CornerRadius="2"
+              Background="{DynamicResource AccentBrush}"
+              VerticalAlignment="Center"
+              Margin="1,0" />
+            <Border
+              Width="3"
+              Height="14"
+              CornerRadius="2"
+              Background="{DynamicResource AccentBrush}"
+              VerticalAlignment="Center"
+              Margin="1,0" />
+            <Border
+              Width="3"
+              Height="19"
+              CornerRadius="2"
+              Background="{DynamicResource AccentBrush}"
+              VerticalAlignment="Center"
+              Margin="1,0" />
+            <Border
+              Width="3"
+              Height="10"
+              CornerRadius="2"
+              Background="{DynamicResource AccentBrush}"
+              VerticalAlignment="Center"
+              Margin="1,0" />
+          </StackPanel>
+          <TextBlock
+            Text="RADU"
+            FontSize="15"
+            FontWeight="SemiBold"
+            Margin="9,0,0,0"
+            VerticalAlignment="Center" />
+        </StackPanel>
+        <Button
+          Grid.Column="1"
+          Style="{StaticResource {x:Type Button}}"
+          Background="Transparent"
+          BorderThickness="0"
+          Click="Minimize_Click"
+          ToolTip="Свернуть"
+          shell:WindowChrome.IsHitTestVisibleInChrome="True">
+          <Path
+            Width="12"
+            Height="12"
+            Stretch="Uniform"
+            Stroke="{StaticResource MutedBrush}"
+            StrokeThickness="1.5"
+            StrokeStartLineCap="Round"
+            StrokeEndLineCap="Round"
+            Data="M4,12 L20,12" />
+        </Button>
+        <Button
+          Grid.Column="2"
+          Background="Transparent"
+          BorderThickness="0"
+          Click="Maximize_Click"
+          ToolTip="Изменить размер"
+          shell:WindowChrome.IsHitTestVisibleInChrome="True">
+          <Path
+            Width="11"
+            Height="11"
+            Stretch="Uniform"
+            Stroke="{StaticResource MutedBrush}"
+            StrokeThickness="1.4"
+            StrokeLineJoin="Round"
+            Data="M4,4 L20,4 L20,20 L4,20 Z" />
+        </Button>
+        <Button
+          Grid.Column="3"
+          Background="Transparent"
+          BorderThickness="0"
+          Click="Close_Click"
+          ToolTip="Закрыть RADU"
+          shell:WindowChrome.IsHitTestVisibleInChrome="True">
+          <Path
+            Width="12"
+            Height="12"
+            Stretch="Uniform"
+            Stroke="{StaticResource MutedBrush}"
+            StrokeThickness="1.6"
+            StrokeStartLineCap="Round"
+            StrokeEndLineCap="Round"
+            Data="M5,5 L19,19 M19,5 L5,19" />
+        </Button>
+      </Grid>
+      <Grid
+        Grid.Row="1"
+        Margin="22,18,22,14">
+        <Grid
+          x:Name="HomeView">
+          <Viewbox
+            Stretch="Uniform"
+            MaxWidth="520"
+            MaxHeight="560"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center">
+            <Canvas
+              x:Name="VoiceCanvas"
+              Width="520"
+              Height="560"
+              Background="Transparent">
+              <Button
+                x:Name="ListenButton"
+                Canvas.Left="198"
+                Canvas.Top="188"
+                Width="124"
+                Height="124"
+                Padding="0"
+                Background="{StaticResource RaisedSurfaceBrush}"
+                BorderBrush="{DynamicResource AccentBrush}"
+                BorderThickness="1.25"
+                Click="ListenButton_Click"
+                ToolTip="Включить или выключить прослушивание"
+                AutomationProperties.Name="Выключить прослушивание"
+                AutomationProperties.ItemStatus="Микрофон активен">
+                <Button.Template>
+                  <ControlTemplate
+                    TargetType="Button">
+                    <Grid>
+                      <Ellipse
+                        x:Name="ButtonSurface"
+                        Fill="{TemplateBinding Background}"
+                        Stroke="{TemplateBinding BorderBrush}"
+                        StrokeThickness="{TemplateBinding BorderThickness}" />
+                      <ContentPresenter
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center" />
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                      <Trigger
+                        Property="IsMouseOver"
+                        Value="True">
+                        <Setter
+                          TargetName="ButtonSurface"
+                          Property="Opacity"
+                          Value="0.9" />
+                      </Trigger>
+                      <Trigger
+                        Property="IsPressed"
+                        Value="True">
+                        <Setter
+                          TargetName="ButtonSurface"
+                          Property="Opacity"
+                          Value="0.78" />
+                      </Trigger>
+                    </ControlTemplate.Triggers>
+                  </ControlTemplate>
+                </Button.Template>
+                <Canvas
+                  Width="48"
+                  Height="48"
+                  IsHitTestVisible="False">
+                  <Path
+                    x:Name="MicrophoneIcon"
+                    Width="48"
+                    Height="48"
+                    Stretch="Uniform"
+                    Stroke="{DynamicResource AccentBrush}"
+                    StrokeThickness="3.2"
+                    StrokeStartLineCap="Round"
+                    StrokeEndLineCap="Round"
+                    StrokeLineJoin="Round"
+                    IsHitTestVisible="False"
+                    Data="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z M19 10v2a7 7 0 0 1-14 0v-2 M12 19v3 M8 22h8" />
+                </Canvas>
+              </Button>
+              <TextBlock
+                x:Name="VoiceStatus"
+                Canvas.Left="40"
+                Canvas.Top="522"
+                Width="440"
+                Foreground="{StaticResource MutedBrush}"
+                FontSize="12"
+                Text="Запускаю голосовой движок…"
+                TextAlignment="Center"
+                TextTrimming="CharacterEllipsis"
+                IsHitTestVisible="False" />
+            </Canvas>
+          </Viewbox>
+          <Border
+            HorizontalAlignment="Center"
+            VerticalAlignment="Bottom"
+            Margin="0,0,0,4"
+            Padding="12,6"
+            Background="{StaticResource PanelBrush}"
+            BorderBrush="{StaticResource BorderBrushSoft}"
+            BorderThickness="1"
+            CornerRadius="{StaticResource ControlCornerRadius}">
+            <StackPanel
+              x:Name="AccentPalette"
+              Orientation="Horizontal"
+              VerticalAlignment="Center">
+              <Button
+                Width="22"
+                Height="22"
+                Padding="0"
+                Margin="2,0"
+                Background="#E8A33D"
+                BorderBrush="#FFF4F5F7"
+                BorderThickness="2"
+                Tag="#E8A33D"
+                Click="AccentColor_Click"
+                ToolTip="Янтарный"
+                AutomationProperties.Name="Янтарный цвет акцента" />
+              <Button
+                Width="22"
+                Height="22"
+                Padding="0"
+                Margin="2,0"
+                Background="#5EAFFF"
+                BorderBrush="#56616B"
+                BorderThickness="1"
+                Tag="#5EAFFF"
+                Click="AccentColor_Click"
+                ToolTip="Голубой"
+                AutomationProperties.Name="Голубой цвет акцента" />
+              <Button
+                Width="22"
+                Height="22"
+                Padding="0"
+                Margin="2,0"
+                Background="#A98BFF"
+                BorderBrush="#56616B"
+                BorderThickness="1"
+                Tag="#A98BFF"
+                Click="AccentColor_Click"
+                ToolTip="Фиолетовый"
+                AutomationProperties.Name="Фиолетовый цвет акцента" />
+              <Button
+                Width="22"
+                Height="22"
+                Padding="0"
+                Margin="2,0"
+                Background="#42C7D5"
+                BorderBrush="#56616B"
+                BorderThickness="1"
+                Tag="#42C7D5"
+                Click="AccentColor_Click"
+                ToolTip="Бирюзовый"
+                AutomationProperties.Name="Бирюзовый цвет акцента" />
+              <Button
+                Width="22"
+                Height="22"
+                Padding="0"
+                Margin="2,0"
+                Background="#F07E9A"
+                BorderBrush="#56616B"
+                BorderThickness="1"
+                Tag="#F07E9A"
+                Click="AccentColor_Click"
+                ToolTip="Розовый"
+                AutomationProperties.Name="Розовый цвет акцента" />
+              <Button
+                Width="22"
+                Height="22"
+                Padding="0"
+                Margin="2,0"
+                Background="#FFFFFF"
+                BorderBrush="#56616B"
+                BorderThickness="1"
+                Tag="#FFFFFF"
+                Click="AccentColor_Click"
+                ToolTip="Белый"
+                AutomationProperties.Name="Белый цвет акцента" />
+              <Button
+                Width="28"
+                Height="28"
+                Padding="0"
+                Margin="4,0,0,0"
+                Background="{StaticResource PanelBrush}"
+                BorderBrush="{StaticResource BorderBrushSoft}"
+                BorderThickness="1"
+                Tag="custom"
+                Click="AccentColor_Click"
+                ToolTip="Выбрать свой цвет"
+                AutomationProperties.Name="Выбрать произвольный цвет акцента">
+                <Path
+                  Width="16"
+                  Height="16"
+                  Stretch="Uniform"
+                  Stroke="{StaticResource TextBrush}"
+                  StrokeThickness="1.5"
+                  StrokeStartLineCap="Round"
+                  StrokeEndLineCap="Round"
+                  StrokeLineJoin="Round"
+                  Data="M12 3a9 9 0 1 0 0 18h1.5a1.5 1.5 0 0 0 0-3h-.3a1.2 1.2 0 0 1 0-2.4H15a6 6 0 0 0 0-12z M7.5 10.5h.01 M12 7.5h.01 M16.5 10.5h.01" />
+              </Button>
+            </StackPanel>
+          </Border>
+        </Grid>
+        <Grid
+          x:Name="CommandsView"
+          Visibility="Collapsed"
+          ClipToBounds="True">
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+          </Grid.RowDefinitions>
+          <Grid
+            Grid.Row="0"
+            MinHeight="42"
+            Margin="0,0,0,14">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="42" />
+            </Grid.ColumnDefinitions>
+            <StackPanel
+              Grid.ColumnSpan="2"
+              Orientation="Horizontal"
+              HorizontalAlignment="Center"
+              VerticalAlignment="Center">
+              <TextBlock Text="Команды" FontSize="24" FontWeight="SemiBold" />
+              <TextBlock
+                x:Name="CommandsCountLabel"
+                Text="—"
+                FontSize="15"
+                FontWeight="Medium"
+                Margin="10,2,0,0"
+                Foreground="{StaticResource TextBrush}"
+                Opacity="0.58"
+                VerticalAlignment="Center"
+                AutomationProperties.Name="Количество команд" />
+            </StackPanel>
+            <Button
+              Grid.Column="1"
+              Width="42"
+              Height="42"
+              Padding="0"
+              Click="AddCommand_Click"
+              ToolTip="Добавить команду"
+              AutomationProperties.Name="Добавить команду">
+              <Path
+                Width="18"
+                Height="18"
+                Stretch="Uniform"
+                Stroke="{StaticResource TextBrush}"
+                StrokeThickness="1.8"
+                StrokeStartLineCap="Round"
+                StrokeEndLineCap="Round"
+                Data="{StaticResource PlusIconGeometry}" />
+            </Button>
+          </Grid>
+          <Grid
+            Grid.Row="1"
+            ClipToBounds="True">
+            <Grid.RowDefinitions>
+              <RowDefinition
+                Height="48" />
+              <RowDefinition
+                Height="*" />
+            </Grid.RowDefinitions>
+            <Border
+              x:Name="CommandSearchSurface"
+              Background="{StaticResource PanelBrush}"
+              BorderBrush="{StaticResource BorderBrushSoft}"
+              BorderThickness="1"
+              CornerRadius="{StaticResource ControlCornerRadius}"
+              Margin="0,0,0,10">
+              <Grid>
+                <Path
+                  Width="16"
+                  Height="16"
+                  Margin="15,0,0,0"
+                  HorizontalAlignment="Left"
+                  Stretch="Uniform"
+                  Stroke="{StaticResource MutedBrush}"
+                  StrokeThickness="1.5"
+                  Data="{StaticResource SearchIconGeometry}" />
+                <TextBox
+                  x:Name="CommandSearch"
+                  AutomationProperties.Name="Поиск команд"
+                  Margin="42,0,40,0"
+                  Background="Transparent"
+                  BorderThickness="0"
+                  VerticalContentAlignment="Center"
+                  TextChanged="CommandSearch_TextChanged"
+                  ToolTip="Поиск команды" />
+                <Button
+                  x:Name="CommandSearchClearButton"
+                  HorizontalAlignment="Right"
+                  Width="32"
+                  Height="32"
+                  Margin="0,0,6,0"
+                  Padding="0"
+                  Background="Transparent"
+                  BorderThickness="0"
+                  Visibility="Collapsed"
+                  Click="ClearCommandSearch_Click"
+                  ToolTip="Очистить поиск"
+                  AutomationProperties.Name="Очистить поиск команд">
+                  <Path Width="15" Height="15" Stretch="Uniform" Stroke="{StaticResource MutedBrush}" StrokeThickness="1.7" StrokeStartLineCap="Round" StrokeEndLineCap="Round" Data="{StaticResource ClearIconGeometry}" />
+                </Button>
+                <TextBlock
+                  x:Name="CommandSearchPlaceholder"
+                  Text="Поиск команд"
+                  Margin="42,0,40,0"
+                  VerticalAlignment="Center"
+                  Foreground="{StaticResource MutedBrush}"
+                  IsHitTestVisible="False" />
+              </Grid>
+            </Border>
+            <Border
+              Grid.Row="1"
+              Background="{StaticResource RaisedSurfaceBrush}"
+              BorderBrush="{StaticResource BorderBrushSoft}"
+              BorderThickness="1"
+              CornerRadius="{StaticResource ControlCornerRadius}"
+              ClipToBounds="True">
+            <ScrollViewer
+              x:Name="CommandScrollViewer"
+              CanContentScroll="False"
+              VerticalScrollBarVisibility="Auto"
+              HorizontalScrollBarVisibility="Disabled"
+              PreviewMouseWheel="SmoothScrollViewer_PreviewMouseWheel">
+              <ListBox
+                x:Name="CommandList"
+                Background="Transparent"
+                BorderThickness="0"
+                Padding="0"
+                ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                <ListBox.ItemContainerStyle>
+                  <Style
+                    TargetType="ListBoxItem">
+                    <Setter
+                      Property="Padding"
+                      Value="0" />
+                    <Setter
+                      Property="Margin"
+                      Value="0" />
+                    <Setter
+                      Property="HorizontalContentAlignment"
+                      Value="Stretch" />
+                    <Setter
+                      Property="Background"
+                      Value="Transparent" />
+                    <Setter
+                      Property="Template">
+                      <Setter.Value>
+                        <ControlTemplate
+                          TargetType="ListBoxItem">
+                          <ContentPresenter />
+                        </ControlTemplate>
+                      </Setter.Value>
+                    </Setter>
+                  </Style>
+                </ListBox.ItemContainerStyle>
+                <ListBox.ItemTemplate>
+                  <DataTemplate>
+                    <Grid
+                      x:Name="CommandRowSurface"
+                      MinHeight="64"
+                      Background="Transparent"
+                      Cursor="Hand"
+                      Tag="{Binding}"
+                      MouseLeftButtonUp="CommandCard_Click"
+                      ClipToBounds="True">
+                      <Grid>
+                        <Grid.ColumnDefinitions>
+                          <ColumnDefinition
+                            Width="*" />
+                          <ColumnDefinition
+                            Width="40" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel
+                          VerticalAlignment="Center"
+                          Margin="12,8,6,8">
+                          <TextBlock
+                            Text="{Binding PrimaryPhrase}"
+                            FontSize="14"
+                            FontWeight="SemiBold"
+                            Foreground="{StaticResource TextBrush}" />
+                          <TextBlock
+                            Text="{Binding ActionDescription}"
+                            FontSize="12"
+                            Foreground="{StaticResource MutedBrush}"
+                            TextTrimming="CharacterEllipsis"
+                            Margin="0,6,0,0" />
+                        </StackPanel>
+                        <Button
+                          Grid.Column="1"
+                          Width="36"
+                          Height="36"
+                          Padding="0"
+                          Background="Transparent"
+                          BorderThickness="0"
+                          Tag="{Binding}"
+                          MouseEnter="DeleteCommand_MouseEnter"
+                          MouseLeave="DeleteCommand_MouseLeave"
+                          Click="DeleteCommand_Click"
+                          AutomationProperties.Name="Удалить команду">
+                          <Path
+                            x:Name="TrashGlyph"
+                            Width="16"
+                            Height="17"
+                            Stretch="Uniform"
+                            Stroke="{StaticResource MutedBrush}"
+                            StrokeThickness="1.5"
+                            StrokeStartLineCap="Round"
+                            StrokeEndLineCap="Round"
+                            StrokeLineJoin="Round"
+                            Data="{StaticResource TrashIconGeometry}" />
+                        </Button>
+                      </Grid>
+                      <Border Height="1" Margin="12,0" Background="{StaticResource BorderBrushSoft}" VerticalAlignment="Bottom" IsHitTestVisible="False" />
+                    </Grid>
+                    <DataTemplate.Triggers>
+                      <DataTrigger
+                        Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=ListBoxItem}}"
+                        Value="True">
+                        <Setter
+                          TargetName="CommandRowSurface"
+                          Property="Background"
+                          Value="{StaticResource HoverSurfaceBrush}" />
+                      </DataTrigger>
+                    </DataTemplate.Triggers>
+                  </DataTemplate>
+                </ListBox.ItemTemplate>
+              </ListBox>
+            </ScrollViewer>
+            </Border>
+          </Grid>
+          <TextBlock
+            x:Name="RestartNotice"
+            Grid.Row="2"
+            Visibility="Collapsed"
+            FontSize="11"
+            Foreground="{StaticResource MutedBrush}"
+            TextWrapping="Wrap"
+            Margin="0,8,0,0" />
+        </Grid>
+        <Grid
+          x:Name="CommandEditorView"
+          Visibility="Collapsed">
+          <Grid.RowDefinitions>
+            <RowDefinition
+              Height="Auto" />
+            <RowDefinition
+              Height="*" />
+          </Grid.RowDefinitions>
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition
+                Width="50" />
+              <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Button
+              Width="40"
+              Height="40"
+              Padding="0"
+              Background="Transparent"
+              BorderThickness="0"
+              Click="CancelEditor_Click"
+              ToolTip="Назад">
+              <Path
+                Width="22"
+                Height="22"
+                Stretch="Uniform"
+                Stroke="{StaticResource MutedBrush}"
+                StrokeThickness="1.8"
+                StrokeStartLineCap="Round"
+                StrokeEndLineCap="Round"
+                  Data="{StaticResource ArrowLeftIconGeometry}" />
+            </Button>
+            <StackPanel
+              Grid.Column="1">
+              <TextBlock
+                x:Name="EditorTitle"
+                Text="Новая команда"
+                FontSize="24"
+                FontWeight="SemiBold" />
+            </StackPanel>
+          </Grid>
+          <ScrollViewer
+            Grid.Row="1"
+            Margin="0,14,0,0"
+            Padding="0,0,12,0"
+            VerticalScrollBarVisibility="Auto"
+            HorizontalScrollBarVisibility="Disabled">
+            <StackPanel>
+              <TextBlock
+                Text="Название команды"
+                Foreground="{StaticResource MutedBrush}"
+                FontSize="12" />
+              <TextBox
+                x:Name="CommandNameInput"
+                Margin="0,7,0,16" />
+              <TextBlock
+                Text="Произносимые фразы"
+                Foreground="{StaticResource MutedBrush}"
+                FontSize="12" />
+              <StackPanel
+                x:Name="PhraseInputList"
+                Margin="0,7,0,6" />
+              <Button
+                Width="42"
+                Height="42"
+                Padding="0"
+                HorizontalAlignment="Left"
+                Margin="0,0,0,16"
+                Click="AddPhrase_Click"
+                ToolTip="Добавить фразу"
+                AutomationProperties.Name="Добавить фразу">
+                <Path
+                  Width="18"
+                  Height="18"
+                  Stretch="Uniform"
+                  Stroke="{StaticResource TextBrush}"
+                  StrokeThickness="1.7"
+                  StrokeStartLineCap="Round"
+                  StrokeEndLineCap="Round"
+                  Data="{StaticResource PlusIconGeometry}" />
+              </Button>
+              <TextBlock
+                Text="Действие"
+                Foreground="{StaticResource MutedBrush}"
+                FontSize="12" />
+              <ComboBox
+                x:Name="ActionTypeInput"
+                Margin="0,7,0,16"
+                SelectionChanged="ActionType_SelectionChanged">
+                <ComboBoxItem
+                  Content="Открыть сайт"
+                  Tag="open_url" />
+                <ComboBoxItem
+                  Content="Открыть приложение"
+                  Tag="open_app" />
+              </ComboBox>
+              <TextBlock
+                x:Name="ActionValueLabel"
+                Text="Адрес сайта"
+                Foreground="{StaticResource MutedBrush}"
+                FontSize="12" />
+              <Grid
+                Margin="0,7,0,4">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition />
+                  <ColumnDefinition
+                    Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBox
+                  x:Name="ActionValueInput" />
+                <Button
+                  x:Name="BrowseActionButton"
+                  Grid.Column="1"
+                  Content="Обзор"
+                  Margin="8,0,0,0"
+                  Padding="14,8"
+                  Visibility="Collapsed"
+                  Click="BrowseAction_Click" />
+              </Grid>
+              <TextBlock
+                x:Name="ActionHint"
+                Visibility="Collapsed"
+                Foreground="{StaticResource MutedBrush}"
+                FontSize="11"
+                TextWrapping="Wrap"
+                Margin="0,4,0,0" />
+              <Grid
+                Margin="0,20,0,0">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition />
+                  <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Button
+                  Content="Отмена"
+                  Height="46"
+                  Margin="0,0,6,0"
+                  Click="CancelEditor_Click" />
+                <Button
+                  Grid.Column="1"
+                  Content="Сохранить"
+                  Height="46"
+                  Margin="6,0,0,0"
+                  Click="SaveCommand_Click">
+                  <Button.Style>
+                    <Style
+                      TargetType="Button"
+                      BasedOn="{StaticResource {x:Type Button}}">
+                      <Setter
+                        Property="Background"
+                        Value="{DynamicResource AccentBrush}" />
+                      <Setter
+                        Property="Foreground"
+                        Value="#17120D" />
+                      <Style.Triggers>
+                        <Trigger
+                          Property="IsMouseOver"
+                          Value="True">
+                          <Setter
+                            Property="Background"
+                            Value="{DynamicResource AccentHoverBrush}" />
+                          <Setter
+                            Property="Foreground"
+                            Value="#17120D" />
+                        </Trigger>
+                        <Trigger
+                          Property="IsPressed"
+                          Value="True">
+                          <Setter
+                            Property="Background"
+                            Value="{DynamicResource AccentPressedBrush}" />
+                        </Trigger>
+                      </Style.Triggers>
+                    </Style>
+                  </Button.Style>
+                </Button>
+              </Grid>
+              <TextBlock
+                x:Name="EditorMessage"
+                Foreground="{StaticResource MutedBrush}"
+                FontSize="11"
+                TextWrapping="Wrap"
+                Margin="0,9,0,0" />
+            </StackPanel>
+          </ScrollViewer>
+        </Grid>
+        <Grid
+          x:Name="HistoryView"
+          Visibility="Collapsed"
+          ClipToBounds="True">
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+          </Grid.RowDefinitions>
+          <Grid Grid.Row="0" Margin="0,0,0,16">
+            <TextBlock Text="История запусков" FontSize="24" FontWeight="SemiBold" VerticalAlignment="Center" />
+          </Grid>
+          <Grid Grid.Row="1" Margin="0,0,0,12">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="8" />
+              <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Border x:Name="HistorySearchSurface" Grid.Column="0" Background="{StaticResource PanelBrush}" BorderThickness="1" CornerRadius="{StaticResource ControlCornerRadius}" Height="44">
+              <Border.Style>
+                <Style TargetType="Border">
+                  <Setter Property="BorderBrush" Value="{StaticResource BorderBrushSoft}" />
+                  <Style.Triggers>
+                    <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                      <Setter Property="BorderBrush" Value="{DynamicResource AccentBrush}" />
+                    </Trigger>
+                  </Style.Triggers>
+                </Style>
+              </Border.Style>
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="40" />
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="38" />
+                </Grid.ColumnDefinitions>
+                <Path Grid.Column="0" Width="16" Height="16" HorizontalAlignment="Center" Stretch="Uniform" Stroke="{StaticResource MutedBrush}" StrokeThickness="1.7" StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" Data="{StaticResource SearchIconGeometry}" />
+                <TextBox x:Name="HistorySearch" Grid.Column="1" Height="42" Margin="0,0,8,0" Padding="0" Background="Transparent" BorderThickness="0" VerticalContentAlignment="Center" AutomationProperties.Name="Поиск по распознанной фразе" AutomationProperties.HelpText="Фильтрует историю по словам в расшифровке" TextChanged="HistorySearch_TextChanged" />
+                <TextBlock x:Name="HistorySearchPlaceholder" Grid.Column="1" Text="Найти фразу" Margin="0,0,8,0" Foreground="{StaticResource MutedBrush}" VerticalAlignment="Center" IsHitTestVisible="False" />
+                <Button x:Name="HistorySearchClearButton" Grid.Column="2" Width="32" Height="32" Margin="0,0,4,0" Padding="0" Background="Transparent" BorderThickness="0" Visibility="Collapsed" Click="ClearHistorySearch_Click" ToolTip="Очистить поиск" AutomationProperties.Name="Очистить поиск истории">
+                  <Path Width="15" Height="15" Stretch="Uniform" Stroke="{StaticResource MutedBrush}" StrokeThickness="1.7" StrokeStartLineCap="Round" StrokeEndLineCap="Round" Data="{StaticResource ClearIconGeometry}" />
+                </Button>
+              </Grid>
+            </Border>
+            <Button x:Name="MarkedFilterButton" Grid.Column="2" MinWidth="112" Height="44" Padding="12,0" Content="Все записи" Click="MarkedFilterButton_Click" AutomationProperties.Name="Фильтр истории записей" />
+          </Grid>
+          <Grid Grid.Row="2" ClipToBounds="True">
+            <Border Background="{StaticResource RaisedSurfaceBrush}" BorderBrush="{StaticResource BorderBrushSoft}" BorderThickness="1" CornerRadius="{StaticResource ControlCornerRadius}" ClipToBounds="True">
+            <ListBox x:Name="HistoryList" Background="Transparent" BorderThickness="0" Padding="0" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.CanContentScroll="True" VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" VirtualizingPanel.ScrollUnit="Pixel" PreviewMouseWheel="HistoryList_PreviewMouseWheel">
+              <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem">
+                  <Setter Property="Background" Value="Transparent" />
+                  <Setter Property="BorderThickness" Value="0" />
+                  <Setter Property="Padding" Value="0" />
+                  <Setter Property="Margin" Value="0" />
+                  <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                  <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ListBoxItem"><ContentPresenter /></ControlTemplate></Setter.Value></Setter>
+                </Style>
+              </ListBox.ItemContainerStyle>
+              <ListBox.ItemTemplate>
+                <DataTemplate>
+                  <Grid MinHeight="72" Background="Transparent" Tag="{Binding}">
+                    <Grid.ContextMenu>
+                      <ContextMenu DataContext="{Binding PlacementTarget.Tag, RelativeSource={RelativeSource Self}}" Background="{StaticResource PanelBrush}" Foreground="{StaticResource TextBrush}" BorderBrush="{StaticResource BorderBrushSoft}" Padding="4">
+                        <MenuItem Header="Открыть в проводнике" Click="OpenHistoryFolder_Click" Padding="10,8">
+                          <MenuItem.Icon>
+                            <Border Width="20" Height="20" Background="{StaticResource PanelBrush}" SnapsToDevicePixels="True">
+                              <Path Width="16" Height="16" Stretch="Uniform" Stroke="{StaticResource MutedBrush}" StrokeThickness="1.5" StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" Data="M3,7 H9 L11,9 H21 V18 A2,2 0 0 1 19,20 H5 A2,2 0 0 1 3,18 Z M3,7 V5 A2,2 0 0 1 5,3 H9 L11,5 H17" />
+                            </Border>
+                          </MenuItem.Icon>
+                          <MenuItem.Style>
+                            <Style TargetType="MenuItem">
+                              <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
+                              <Setter Property="Background" Value="Transparent" />
+                              <Setter Property="Template">
+                                <Setter.Value>
+                                  <ControlTemplate TargetType="MenuItem">
+                                    <Border x:Name="ItemSurface" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}">
+                                      <Grid>
+                                        <Grid.ColumnDefinitions><ColumnDefinition Width="Auto" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
+                                        <ContentPresenter Grid.Column="0" ContentSource="Icon" VerticalAlignment="Center" Margin="0,0,10,0" />
+                                        <ContentPresenter Grid.Column="1" ContentSource="Header" RecognizesAccessKey="True" VerticalAlignment="Center" />
+                                      </Grid>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                      <Trigger Property="IsHighlighted" Value="True">
+                                        <Setter TargetName="ItemSurface" Property="Background" Value="{StaticResource HoverSurfaceBrush}" />
+                                      </Trigger>
+                                    </ControlTemplate.Triggers>
+                                  </ControlTemplate>
+                                </Setter.Value>
+                              </Setter>
+                            </Style>
+                          </MenuItem.Style>
+                        </MenuItem>
+                      </ContextMenu>
+                    </Grid.ContextMenu>
+                    <Border x:Name="HistoryRowSurface" Background="Transparent" />
+                    <Grid Margin="12,8">
+                      <Grid.ColumnDefinitions><ColumnDefinition /><ColumnDefinition Width="Auto" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
+                      <StackPanel VerticalAlignment="Center" Margin="0,0,12,0">
+                        <TextBlock Text="{Binding Transcript}" Foreground="{StaticResource TextBrush}" FontSize="15" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
+                        <TextBlock Text="{Binding LocalTimeLabel}" Margin="0,5,0,0" FontSize="12" Foreground="{StaticResource MutedBrush}" />
+                        <TextBlock x:Name="MarkedLabel" Text="Неверно распознано" Margin="0,5,0,0" FontSize="11" Foreground="{DynamicResource AccentBrush}" Visibility="Collapsed" />
+                      </StackPanel>
+                      <Button Grid.Column="1" Width="40" Height="40" Padding="0" Click="PlayHistoryAudio_Click" ToolTip="Воспроизвести или остановить запись" AutomationProperties.Name="{Binding PlayAutomationLabel}">
+                        <Grid>
+                          <Path x:Name="PlayGlyph" Width="16" Height="16" Stretch="Uniform" Fill="Transparent" Stroke="{DynamicResource AccentBrush}" StrokeThickness="1.7" StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" Data="{StaticResource PlayIconGeometry}" />
+                          <Path x:Name="StopGlyph" Width="15" Height="15" Stretch="Uniform" Stroke="{DynamicResource AccentBrush}" StrokeThickness="1.8" Visibility="Collapsed" Data="{StaticResource StopIconGeometry}" />
+                        </Grid>
+                      </Button>
+                      <Button Grid.Column="2" Width="40" Height="40" Margin="6,0,0,0" Padding="0" Click="MarkRecognitionIncorrect_Click" ToolTip="Отметить неправильное распознавание" AutomationProperties.Name="{Binding MarkAutomationLabel}">
+                        <Path x:Name="MarkGlyph" Width="17" Height="17" Stretch="Uniform" Stroke="{DynamicResource MutedBrush}" StrokeThickness="1.7" StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" Data="{StaticResource FlagIconGeometry}" />
+                      </Button>
+                    </Grid>
+                    <Border Height="1" Margin="12,0" Background="{StaticResource BorderBrushSoft}" VerticalAlignment="Bottom" IsHitTestVisible="False" />
+                  </Grid>
+                  <DataTemplate.Triggers>
+                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=IsMouseOver}" Value="True">
+                      <Setter TargetName="HistoryRowSurface" Property="Background" Value="{StaticResource HoverSurfaceBrush}" />
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding IsPlaying}" Value="True">
+                      <Setter TargetName="PlayGlyph" Property="Visibility" Value="Collapsed" />
+                      <Setter TargetName="StopGlyph" Property="Visibility" Value="Visible" />
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding IsMarkedIncorrect}" Value="True">
+                      <Setter TargetName="MarkedLabel" Property="Visibility" Value="Visible" />
+                      <Setter TargetName="MarkGlyph" Property="Stroke" Value="{DynamicResource AccentBrush}" />
+                    </DataTrigger>
+                  </DataTemplate.Triggers>
+                </DataTemplate>
+              </ListBox.ItemTemplate>
+            </ListBox>
+            </Border>
+            <TextBlock x:Name="HistoryEmptyText" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="24" Foreground="{StaticResource MutedBrush}" Text="Успешных запусков пока нет" TextAlignment="Center" TextWrapping="Wrap" Visibility="Collapsed" />
+          </Grid>
+        </Grid>
+      </Grid>
+      <Border
+        Grid.Row="2"
+        MinHeight="76"
+        Background="{StaticResource PanelBrush}"
+        BorderBrush="{StaticResource BorderBrushSoft}"
+        BorderThickness="0,1,0,0"
+        Panel.ZIndex="1">
+        <Grid
+          Margin="8,4">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+          </Grid.ColumnDefinitions>
+          <Button
+            x:Name="HomeNav"
+            Background="Transparent"
+            BorderThickness="0"
+            Click="HomeButton_Click">
+            <StackPanel
+              Orientation="Vertical"
+              HorizontalAlignment="Center">
+              <Path
+                Width="17"
+                Height="17"
+                Stretch="Uniform"
+                Stroke="{StaticResource MutedBrush}"
+                StrokeThickness="1.5"
+                StrokeStartLineCap="Round"
+                StrokeEndLineCap="Round"
+                Data="{StaticResource HomeIconGeometry}" />
+              <TextBlock
+                Text="Главная"
+                Foreground="{StaticResource MutedBrush}"
+                Margin="0,4,0,0"
+                HorizontalAlignment="Center"
+                FontSize="11" />
+            </StackPanel>
+          </Button>
+          <Button
+            x:Name="CommandsNav"
+            Grid.Column="1"
+            Background="Transparent"
+            BorderThickness="0"
+            Click="CommandsButton_Click">
+            <StackPanel
+              Orientation="Vertical"
+              HorizontalAlignment="Center">
+              <Path
+                Width="17"
+                Height="17"
+                Stretch="Uniform"
+                Stroke="{StaticResource MutedBrush}"
+                StrokeThickness="1.5"
+                StrokeStartLineCap="Round"
+                StrokeEndLineCap="Round"
+                Data="{StaticResource ListIconGeometry}" />
+              <TextBlock
+                Text="Команды"
+                Foreground="{StaticResource MutedBrush}"
+                Margin="0,4,0,0"
+                HorizontalAlignment="Center"
+                FontSize="11" />
+            </StackPanel>
+          </Button>
+          <Button
+            x:Name="HistoryNav"
+            Grid.Column="2"
+            Background="Transparent"
+            BorderThickness="0"
+            Click="HistoryButton_Click">
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+              <Path Width="17" Height="17" Stretch="Uniform" Stroke="{StaticResource MutedBrush}" StrokeThickness="1.6" StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" Data="{StaticResource AudioLinesIconGeometry}" />
+              <TextBlock Text="История" Foreground="{StaticResource MutedBrush}" Margin="0,4,0,0" HorizontalAlignment="Center" FontSize="11" />
+            </StackPanel>
+          </Button>
+        </Grid>
+      </Border>
+      <Grid x:Name="DeleteConfirmationOverlay" Grid.RowSpan="3" Panel.ZIndex="20" Background="#B8000000" Visibility="Collapsed" IsHitTestVisible="True" MouseDown="DeleteConfirmationOverlay_MouseDown">
+        <Border Width="340" Padding="20" HorizontalAlignment="Center" VerticalAlignment="Center" Background="{StaticResource PanelBrush}" BorderBrush="{StaticResource BorderBrushSoft}" BorderThickness="1" CornerRadius="{StaticResource ControlCornerRadius}">
+          <StackPanel>
+            <TextBlock Text="Удалить команду?" FontSize="18" FontWeight="SemiBold" />
+            <TextBlock x:Name="DeleteConfirmationText" Margin="0,10,0,18" Foreground="{StaticResource MutedBrush}" TextWrapping="Wrap" />
+            <Grid>
+              <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="10" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
+              <Button x:Name="CancelDeleteButton" Grid.Column="0" Content="Оставить" Height="40" Click="CancelDeleteCommand_Click" IsCancel="True" />
+              <Button Grid.Column="2" Content="Удалить" Height="40" Click="ConfirmDeleteCommand_Click" IsDefault="True">
+                <Button.Style>
+                  <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                    <Setter Property="TextElement.Foreground" Value="{StaticResource DangerBrush}" />
+                    <Setter Property="Background" Value="#FF382126" />
+                    <Setter Property="BorderBrush" Value="#FF73404A" />
+                    <Style.Triggers>
+                      <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="TextElement.Foreground" Value="#FFFFA0A8" />
+                        <Setter Property="Background" Value="#FF4A252C" />
+                      </Trigger>
+                    </Style.Triggers>
+                  </Style>
+                </Button.Style>
+              </Button>
+            </Grid>
+          </StackPanel>
+        </Border>
+      </Grid>
+    </Grid>
+  </Border>
+</Window>

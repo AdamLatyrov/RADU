@@ -1,0 +1,14 @@
+{
+  "commands": [
+    {
+      "id": "open_notepad",
+      "phrases": [
+        "открой блокнот"
+      ],
+      "action": {
+        "type": "open_app",
+        "value": "notepad.exe"
+      }
+    }
+  ]
+}
