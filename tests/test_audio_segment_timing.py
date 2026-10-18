@@ -69,7 +69,11 @@ def test_missing_stage_markers_are_reported_as_unavailable() -> None:
 
 def test_vadSegmentKeepsLastVoicedFrameWhenSilenceClosesIt() -> None:
     detector = SpeechDetector(
-        RingBuffer(640), start_frames=1, end_silence_frames=2, pre_samples=0, max_frames=10
+        RingBuffer(640),
+        start_frames=1,
+        end_silence_frames=2,
+        pre_samples=0,
+        max_frames=10,
     )
     frame = np.zeros(320, dtype=np.int16)
 
