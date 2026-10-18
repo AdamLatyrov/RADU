@@ -6,7 +6,7 @@ RADU is a Windows desktop app that runs actions from spoken phrases. Users confi
 
 ## Download and run
 
-1. Open the [latest RADU release](https://github.com/AdamLatyrov/RADU/releases/latest).
+1. Open the [RADU releases page](https://github.com/AdamLatyrov/RADU/releases) and choose the newest preview release.
 2. Download and run `RADU-Setup.exe`. It installs the app and creates a Start menu shortcut.
 3. Launch RADU from the Start menu or from the desktop if you selected that shortcut.
 4. Add and edit commands on the Commands tab.
