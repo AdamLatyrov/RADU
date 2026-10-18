@@ -20,6 +20,9 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+      - name: Install Inno Setup
+        shell: pwsh
+        run: choco install innosetup --yes --no-progress
       - name: Download the Russian speech model
         shell: pwsh
         run: |
@@ -32,7 +35,9 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: RADU-Windows
-          path: artifacts/RADU-Windows.zip
+          path: |
+            artifacts/RADU-Setup.exe
+            artifacts/RADU-Windows.zip
       - name: Publish GitHub release
         if: startsWith(github.ref, 'refs/tags/')
         uses: softprops/action-gh-release@v2
@@ -40,4 +45,6 @@ jobs:
           name: RADU ${{ github.ref_name }}
           prerelease: true
           generate_release_notes: true
-          files: artifacts/RADU-Windows.zip
+          files: |
+            artifacts/RADU-Setup.exe
+            artifacts/RADU-Windows.zip

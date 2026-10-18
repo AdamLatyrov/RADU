@@ -37,3 +37,20 @@ $archive = Join-Path $root "artifacts\RADU-Windows.zip"
 Remove-Item $archive -Force -ErrorAction SilentlyContinue
 Compress-Archive -Path (Join-Path $output "*") -DestinationPath $archive -CompressionLevel Optimal
 Write-Output "Created $archive"
+
+$isccPath = (Get-Command "ISCC.exe" -ErrorAction SilentlyContinue).Source
+if (-not $isccPath) {
+    $isccPath = Join-Path ([Environment]::GetFolderPath("ProgramFilesX86")) "Inno Setup 6\ISCC.exe"
+    if (-not (Test-Path $isccPath)) { $isccPath = $null }
+}
+if (-not $isccPath) { throw "Inno Setup 6 is required to create RADU-Setup.exe." }
+
+$appVersion = "0.1.0"
+if ($env:GITHUB_REF_NAME -match "^v?(\d+\.\d+\.\d+)") { $appVersion = $Matches[1] }
+$env:RADU_PACKAGE_DIR = $output
+$env:RADU_APP_VERSION = $appVersion
+& $isccPath (Join-Path $PSScriptRoot "RADU.Setup.iss")
+if ($LASTEXITCODE -ne 0) { throw "The RADU installer build failed." }
+$installer = Join-Path $root "artifacts\RADU-Setup.exe"
+if (-not (Test-Path $installer)) { throw "The RADU installer was not created." }
+Write-Output "Created $installer"
