@@ -1,7 +1,8 @@
-numpy>=1.26,<3
-numba>=0.59,<1
-sounddevice>=0.4.6
-soundfile>=0.12
-vosk>=0.3.45
-webrtcvad>=2.0.10
-colorama>=0.4.6
+numpy==2.2.1
+sounddevice==0.5.5
+soundfile>=0.12,<1
+vosk==0.3.45
+webrtcvad==2.0.10
+colorama>=0.4.6,<1
+pyinstaller==6.18.0
+setuptools<81

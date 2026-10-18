@@ -17,7 +17,7 @@ New-Item $output -ItemType Directory -Force | Out-Null
 if (-not (Test-Path $buildPython)) {
     python -m venv $buildEnvironment
 }
-& $buildPython -m pip install --disable-pip-version-check -r (Join-Path $root "requirements-release.txt")
+& $buildPython -m pip install --disable-pip-version-check -r (Join-Path $root "requirements.txt")
 if ($LASTEXITCODE -ne 0) { throw "Could not prepare the isolated packaging environment." }
 
 & $buildPython -m PyInstaller --noconfirm --clean (Join-Path $PSScriptRoot "RADU.Engine.spec") `

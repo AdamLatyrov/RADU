@@ -21,7 +21,6 @@ data/
 *.suo
 skills/
 docs/*
-!docs/CHANGELOG.md
 !docs/IDEAS_AND_SOURCES.md
 data/observations/**
 data/cache/**
