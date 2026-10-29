@@ -21,7 +21,6 @@ class EngineService:
         self._listening_event = listening_event
         self._reload_event = reload_event
         self._write_lock = threading.Lock()
-        self._action_feedback_ack = threading.Event()
 
     def start(self) -> None:
         if self.enabled:
@@ -30,16 +29,16 @@ class EngineService:
     def emit(self, event: str, **values: Any) -> None:
         if not self.enabled:
             return
-        message = json.dumps({"event": event, **values}, ensure_ascii=False)
+        # Keep the process protocol ASCII-only so Windows code-page differences
+        # cannot corrupt Russian text before the WPF JSON reader sees it.
+        message = json.dumps({"event": event, **values}, ensure_ascii=True)
         with self._write_lock:
             print(message, file=sys.stdout, flush=True)
 
     def begin_action(self) -> None:
         if not self.enabled:
             return
-        self._action_feedback_ack.clear()
         self.emit("action_starting")
-        self._action_feedback_ack.wait(timeout=2.0)
 
     def _read_controls(self) -> None:
         try:
@@ -63,8 +62,5 @@ class EngineService:
                     self.emit("listening", value=enabled)
                 elif action == "reload_commands":
                     self._reload_event.set()
-                elif action == "action_starting_ack":
-                    self._action_feedback_ack.set()
         finally:
-            self._action_feedback_ack.set()
             self._stop_event.set()

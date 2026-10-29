@@ -1,7 +1,4 @@
 using System.Diagnostics;
-using System.IO;
-using System.Media;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -251,7 +248,6 @@ public partial class MainWindow
                 .Task.ConfigureAwait(false);
             await Dispatcher.InvokeAsync(() => { }, DispatcherPriority.ContextIdle)
                 .Task.ConfigureAwait(false);
-            PlayActionStartingSound();
         }
         catch (InvalidOperationException) when (Dispatcher.HasShutdownStarted || Dispatcher.HasShutdownFinished)
         {
@@ -291,54 +287,6 @@ public partial class MainWindow
                 SetVisualState(_engine.IsListening ? "listening" : "standby");
             }
         });
-    }
-
-    private static void PlayActionStartingSound()
-    {
-        try
-        {
-            PlayActionStartingTone();
-        }
-        catch (Exception)
-        {
-            // Audio playback must never block launching the requested application.
-        }
-    }
-
-    private static void PlayActionStartingTone()
-    {
-        const int sampleRate = 22_050;
-        const int durationMilliseconds = 110;
-        const double frequency = 880;
-        var sampleCount = sampleRate * durationMilliseconds / 1000;
-        using var stream = new MemoryStream();
-        using (var writer = new BinaryWriter(stream, Encoding.ASCII, leaveOpen: true))
-        {
-            writer.Write(Encoding.ASCII.GetBytes("RIFF"));
-            writer.Write(36 + sampleCount * 2);
-            writer.Write(Encoding.ASCII.GetBytes("WAVEfmt "));
-            writer.Write(16);
-            writer.Write((short)1);
-            writer.Write((short)1);
-            writer.Write(sampleRate);
-            writer.Write(sampleRate * 2);
-            writer.Write((short)2);
-            writer.Write((short)16);
-            writer.Write(Encoding.ASCII.GetBytes("data"));
-            writer.Write(sampleCount * 2);
-
-            for (var index = 0; index < sampleCount; index++)
-            {
-                var progress = (double)index / sampleCount;
-                var envelope = Math.Min(1, Math.Min(progress * 30, (1 - progress) * 30));
-                var sample = (short)(Math.Sin(2 * Math.PI * frequency * index / sampleRate) * envelope * 6000);
-                writer.Write(sample);
-            }
-        }
-
-        stream.Position = 0;
-        using var player = new SoundPlayer(stream);
-        player.PlaySync();
     }
 
     private bool LooksLikeCommandAttempt(string transcript)
